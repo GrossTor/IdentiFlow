@@ -1,19 +1,14 @@
 # IdentiFlow
-Interaction strengths between nodes in directed network can be quantified based on observations of network perturbations. This package reveals the identifiability of network parameters and optimizes experimental design for network perturbation studies. See an upcoming publication for details.
+Interaction strengths between nodes in directed networks can be quantified from observations of the network's response to perturbations. This package reveals the identifiability of the inferred network parameters and optimizes experimental design for network perturbation studies. See an upcoming publication for details.
 
 
 You can install the IdentiFlow package with [pip](https://pypi.org/project/pip/):
 
 ```
-pip install ???
+pip install git+https://github.com/GrossTor/IdentiFlow#egg=identiflow
 ```
 
-The package is easy to use and we demonstrate its most relevant features in the example below. You also find this script in identiflow/examples
-
-
-In the same folder you also find the scripts that were used to analyse the KEGG pathways as described in our [paper](https://????).
-Check out the example script to get to know the relevant features and find details in the functions' documentation.
-
+The package is easy to use and we demonstrate its most relevant features in the example below. You find the example script in [identiflow/examples](identiflow/examples). This folder also contains the scripts that were used to analyse the KEGG pathways, as described in our [paper](https://????).
 
 
 
@@ -117,11 +112,26 @@ print('\nPerformance:\n\n   exhaustive: {0}\n   greedy: {1}\n   multi_target: {2
         exhaustive['ident_AUC'],greedy['ident_AUC'],multi_target['ident_AUC'],naive['ident_AUC'], random['ident_AUC']))
 ```
 
-
     Performance:
-
+    
        exhaustive: 0.7592592592592593
        greedy: 0.7592592592592593
        multi_target: 0.8148148148148148
        naive: 0.7407407407407407
-       random: 0.5740740740740741
+       random: 0.48148148148148145
+    
+    Best perturbation sequences:
+    
+       greedy:
+    
+    [('P5', 'P0', 'P1', 'P2', 'P4'),
+     ('P5', 'P0', 'P2', 'P1', 'P4'),
+     ('P4', 'P0', 'P1', 'P2', 'P5'),
+     ('P4', 'P0', 'P2', 'P1', 'P5')]
+    
+       multi-target:
+    
+    [({'P5'}, {'P0', 'P4'}, {'P2'}, {'P1'}),
+     ({'P5'}, {'P0', 'P4'}, {'P1'}, {'P2'}),
+     ({'P4'}, {'P0', 'P5'}, {'P2'}, {'P1'}),
+     ({'P4'}, {'P0', 'P5'}, {'P1'}, {'P2'})]
