@@ -108,8 +108,15 @@ naive = identiflow.optimize_experimental_design(net, perturbations,
 random = identiflow.optimize_experimental_design(net, perturbations,
                                 strategy='random',sampling=True, n_samples=1)
 
+
+import pprint
 print('\nPerformance:\n\n   exhaustive: {0}\n   greedy: {1}\n   multi_target: {2}\n   naive: {3}\n   random: {4}'.format(
         exhaustive['ident_AUC'],greedy['ident_AUC'],multi_target['ident_AUC'],naive['ident_AUC'], random['ident_AUC']))
+
+print('\nBest perturbation sequences:\n\n   greedy:\n')
+pprint.pprint(greedy['best_pert_seqs'])
+print('\n   multi-target:\n')
+pprint.pprint([tuple(set(combi) for combi in seq) for seq in multi_target['best_pert_seqs']])
 ```
 
     Performance:
