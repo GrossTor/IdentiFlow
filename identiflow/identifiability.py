@@ -516,11 +516,15 @@ def draw_lattice(cyclic_flats):
             pos[frozenset(flat)]=[x_pos,rank]
     labels={node:i for i,node in enumerate(lattice.nodes)}
     
+
     fig,ax=plt.subplots(figsize=[3,3])
+    plt.axis('on')
     nx.draw_networkx(lattice,pos=pos,labels=labels,label=list(labels.keys()),ax=ax)
-    ax.set_xticks([])
     ax.set_ylabel('rank')
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax.tick_params(left=False, bottom=False, labelleft=True, labelbottom=False)
+
+    
     plt.box(on=False)
     #plt.tight_layout()
     plt.text(ax.get_xlim()[0],ax.get_ylim()[1],''.join(['{0}: {1}\n'.format(i,', '.join(node)) for node,i in labels.items()]))
