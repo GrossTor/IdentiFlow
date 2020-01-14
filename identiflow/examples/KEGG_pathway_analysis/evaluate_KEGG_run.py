@@ -16,13 +16,9 @@ save_plots = False
 #%%load data
 analysis_folder=os.path.dirname(__file__)
 plot_folder=os.path.join(analysis_folder, 'plots/')
-if not os.path.exists(plot_folder):
-    os.makedirs(plot_folder)
+KEGG_results_folder=os.path.join(analysis_folder, 'results/KEGG/')
 
-results_folder=os.path.join(analysis_folder, 'results/')
-
-with open (os.path.join(analysis_folder,'KEGG_pathways.pkl'), 'rb') as fp:
-    pathways = pd.DataFrame(pickle.load(fp))
+pathways = pd.read_pickle(os.path.join(analysis_folder,'KEGG_pathways.pkl'))
 
 KEGG_results = []
 for filename in os.listdir(KEGG_results_folder):
@@ -47,11 +43,16 @@ fraction_required_perts = n_required_perts[n_required_perts['strategy']!='random
 fraction_required_perts['Fraction of required perturbations'] = fraction_required_perts['n_required_perts'] / fraction_required_perts['n_required_perts_random']
 fraction_required_perts = fraction_required_perts.drop(columns=['n_required_perts','n_required_perts_random'])
 
+fraction_required_perts = fraction_required_perts.join(pathways['tc_score'], on = 'KEGG_id')
+pearson_r_req_frac   = fraction_required_perts.groupby('strategy')[ 'Fraction of required perturbations', 'tc_score'].apply(
+        lambda col: scipy.stats.pearsonr(col[ 'Fraction of required perturbations'],col['tc_score']))
+spearman_r_req_frac = fraction_required_perts.groupby('strategy')[ 'Fraction of required perturbations', 'tc_score'].apply(
+        lambda col: scipy.stats.spearmanr(col[ 'Fraction of required perturbations'],col['tc_score']))
 
 #%%compute Delta identifiability AUC
 mean_AUC = KEGG_results[['KEGG_id','strategy','Identifiability AUC']].groupby(
         ['KEGG_id','strategy']).mean().reset_index(level='strategy')
-delta_AUC = mean_AUC[mean_AUC.strategy!='random'].join(
+delta_AUC = mean_AUC[mean_AUC.strategy!='random'].join( 
         mean_AUC.loc[mean_AUC.strategy=='random','Identifiability AUC'],
                     rsuffix='_random')
 delta_AUC['Delta Identifiability AUC'] = delta_AUC['Identifiability AUC'] - delta_AUC['Identifiability AUC_random']
@@ -71,7 +72,7 @@ for i,r in KEGG_results.loc[KEGG_results.strategy=='multi_target',['KEGG_id' , '
     for pert_seq  in r['best_pert_seqs']:
         for pert_combi in pert_seq:
             path_npert.append( [r['KEGG_id'] , len(pert_combi)])
-
+            
 path_npert = pd.DataFrame(path_npert,columns=['KEGG_id','Number of targets'])
 
 path_npert = path_npert.join(pathways['N'],on='KEGG_id')
@@ -128,7 +129,6 @@ plt.show()
 
 
 #%%
-
 delta_order=['delta_naive_random','delta_greedy_random','delta_opti_random']
 sns.lmplot(x='tc_score',y='Delta Identifiability AUC',col='strategy',hue='strategy',
                 data=delta_AUC,
@@ -142,10 +142,27 @@ sns.despine()
 #ax.set_ylabel('Delta Identifiability AUC')
 plt.tight_layout()
 if save_plots:
-    plt.savefig(os.path.join(plot_folder, 'Delta_ident_AUC.pdf'))
+    plt.savefig(os.path.join(plot_folder, 'Delta_ident_AUC_corr.pdf'))
 plt.show()
 
 
+#%%
+
+delta_order=['delta_naive_random','delta_greedy_random','delta_opti_random']
+a = sns.lmplot(x='tc_score',y='Fraction of required perturbations',col='strategy',hue='strategy',
+                data=fraction_required_perts,
+                height=2.,aspect=.9,
+                col_order=strategy_order[1:],hue_order=strategy_order[1:],
+                scatter_kws={'s':5,'linewidth':.25},
+                line_kws={'linewidth':1.},
+                sharey=True,
+                palette=palette[1:],)
+sns.despine()
+a.set_ylabels('Fraction required\nperturbations')
+plt.tight_layout()
+if save_plots:
+    plt.savefig(os.path.join(plot_folder, 'Frac_req_pert_corr.pdf'))
+plt.show()
 
 #%%
 sns.catplot(y='Fraction of experiments',x='Number of targets',col='size_group',col_order=['< 25','25 - 75','> 75'],
