@@ -10,15 +10,15 @@ max_size_net = 20
 
 from multiprocessing import Pool
 import os
-import networkx as nx
 import pickle 
 import pandas as pd
-import numpy as np
 
-from experimental_design import optimize_experimental_design
+from identiflow import optimize_experimental_design
 
 analysis_folder=os.path.dirname(__file__)
 results_folder=os.path.join(analysis_folder, 'results/KEGG')
+if not os.path.exists(results_folder):
+    os.makedirs(results_folder)
 
 pathways = pd.read_pickle(os.path.join(analysis_folder,'KEGG_pathways.pkl'))
 #%%

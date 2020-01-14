@@ -11,11 +11,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import scipy.stats
 
-save_plots = False
+save_plots = True
 
 #%%load data
 analysis_folder=os.path.dirname(__file__)
 plot_folder=os.path.join(analysis_folder, 'plots/')
+if not os.path.exists(plot_folder):
+    os.makedirs(plot_folder)
+
 KEGG_results_folder=os.path.join(analysis_folder, 'results/KEGG/')
 
 pathways = pd.read_pickle(os.path.join(analysis_folder,'KEGG_pathways.pkl'))
