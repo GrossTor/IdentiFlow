@@ -1,5 +1,5 @@
 # IdentiFlow
-Interaction strengths between nodes in directed networks can be quantified from observations of the network's response to perturbations. This package reveals the identifiability of the inferred network parameters and optimizes experimental design for network perturbation studies. See an upcoming publication for details.
+Interaction strengths between nodes in directed networks can be quantified from observations of the network's response to perturbations. This package reveals the identifiability of the inferred network parameters and optimizes experimental design for network perturbation studies. See our [publication](https://www.biorxiv.org/content/10.1101/2020.02.03.931816v1) for details.
 
 
 You can install the IdentiFlow package with [pip](https://pypi.org/project/pip/):
@@ -8,7 +8,7 @@ You can install the IdentiFlow package with [pip](https://pypi.org/project/pip/)
 pip install git+https://github.com/GrossTor/IdentiFlow#egg=identiflow
 ```
 
-The package is easy to use and we demonstrate its most relevant features in the example below. You find the example script in [identiflow/examples](identiflow/examples). This folder also contains the scripts that were used to analyse the KEGG pathways, as described in our [paper](https://????).
+The package is easy to use and we demonstrate its most relevant features in the example below. You find the example script in [identiflow/examples](identiflow/examples). This folder also contains the scripts that were used to analyse the KEGG pathways, as described in our [paper](https://www.biorxiv.org/content/10.1101/2020.02.03.931816v1).
 
 
 
