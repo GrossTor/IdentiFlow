@@ -1,5 +1,5 @@
 # IdentiFlow
-Interaction strengths between nodes in directed networks can be quantified from observations of the network's response to perturbations. This package reveals the identifiability of the inferred network parameters and optimizes experimental design for network perturbation studies. See our [publication](https://www.biorxiv.org/content/10.1101/2020.02.03.931816v1) for details.
+Interaction strengths between nodes in directed networks can be quantified from observations of the network's response to perturbations. This package reveals the identifiability of the inferred network parameters and optimizes experimental design for network perturbation studies. See our [publication](https://doi.org/10.1093/bioinformatics/btaa404) for details.
 
 
 You can install the IdentiFlow package with [pip](https://pypi.org/project/pip/):
